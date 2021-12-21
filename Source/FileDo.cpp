@@ -1,7 +1,3 @@
-//
-// Created by HUAWEI on 2021-12-21.
-//
-
 #include "FileDo.h"
 #include "BPlusTree.h"
 
