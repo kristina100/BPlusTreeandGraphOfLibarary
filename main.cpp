@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include "Header/BPlusTree.h"
-#include "Header/FileDo.h"
+#include"Common.h"
+#include "BPlusTree.h"
+#include "FileDo.h"
 
 
 /** Show Help */

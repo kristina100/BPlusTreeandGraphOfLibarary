@@ -2,10 +2,8 @@
 // Created by HUAWEI on 2021-12-21.
 //
 
-#include ".."
-#include "Header/FileDo.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "FileDo.h"
+#include"BPlusTree.h"
 
 #define true 1
 #define false 0

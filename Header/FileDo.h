@@ -1,14 +1,7 @@
-//
-// Created by HUAWEI on 2021-12-21.
-//
-
 #ifndef BPLUSTREE_FILEDO_H
 #define BPLUSTREE_FILEDO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include"Common.h"
 
 #define true 1
 #define false 0
