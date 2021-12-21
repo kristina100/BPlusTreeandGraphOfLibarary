@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @Author: Hx
+ * @Date: 2021-12-21 14:44:58
+ * @LastEditors: Hx
+ * @LastEditTime: 2021-12-21 20:59:14
+ */
 #ifndef BPLUSTREE_FILEDO_H
 #define BPLUSTREE_FILEDO_H
 
@@ -6,20 +13,6 @@
 #define true 1
 #define false 0
 #define MAX_KEY 1000000000
-
-// file
-char input_file[100];
-char output_file[100];
-char *buffer;
-int fsize;
-// record
-int new_key, new_pos, new_len;
-char new_st[12];
-// data
-const int TotalRecords = 10000000;
-int validRecords;
-// test
-int keys[10000000], key_num;
 
 /**
 * Read_Buffer(char *input_file) -> buffer
@@ -43,4 +36,5 @@ void modify_test();
 void query_range_test();
 void query_key_test();
 void build_test();
+
 #endif //BPLUSTREE_FILEDO_H

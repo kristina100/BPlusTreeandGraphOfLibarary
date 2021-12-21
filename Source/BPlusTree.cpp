@@ -1,18 +1,11 @@
-//
-// Created by HUAWEI on 2021-12-21.
-//
-
 #include"FileDo.h"
 #include"BPlusTree.h"
-
-#define true 1
-#define false 0
+#include"Global.h"
 
 struct BPlusTreeNode* Root;
 
 int MaxChildNumber = 50;
 int TotalNodes;
-
 int QueryAnsNum;
 
 /** 建立新的结点 */
@@ -35,6 +28,7 @@ int Binary_Search(BPlusTreeNode* Cur, int key)
     int l = 0, r = Cur->key_num;
     if (key < Cur->key[l]) return l;
     if (Cur->key[r - 1] <= key) return r - 1;
+
     while (l < r - 1) {
         int mid = (l + r) >> 1;
         if (Cur->key[mid] > key)
@@ -52,8 +46,6 @@ int Binary_Search(BPlusTreeNode* Cur, int key)
  * 其中 Mid = MaxChildNumber / 2
  * 注意，只有当Split()被调用时，才会创建一个新的节点
  */
-
-
 void Split(BPlusTreeNode* Cur) {
     // copy Cur(Mid .. MaxChildNumber) -> Temp(0 .. Temp->key_num)
     BPlusTreeNode* Temp = New_BPlusTreeNode();
@@ -61,8 +53,8 @@ void Split(BPlusTreeNode* Cur) {
     int Mid = MaxChildNumber >> 1;
     Temp->isLeaf = Cur->isLeaf; // Temp's depth == Cur's depth
     Temp->key_num = MaxChildNumber - Mid;
-    int i;
-    for (i = Mid; i < MaxChildNumber; i++) {
+ 
+    for (int i = Mid; i < MaxChildNumber; i++) {
         Temp->child[i - Mid] = Cur->child[i];
         Temp->key[i - Mid] = Cur->key[i];
         if (Temp->isLeaf) {
@@ -93,24 +85,32 @@ void Split(BPlusTreeNode* Cur) {
     } else {
         // Try to insert Temp to Cur->father
         Temp->father = Cur->father;
-        Insert(Cur->father, Cur->key[Mid], -1, (void*)Temp);
-    }
+        // Insert(Cur->father, Cur->key[Mid], -1, (void*)Temp);
+        Insert(Cur->father, Cur->key[Mid], -1, Temp);
+    } 
 }
 
 /** Insert (key, value) into Cur, if Cur is full, then split it to fit the definition of B+tree */
 void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
 {
     int i, ins;
-    if (key < Cur->key[0]) ins = 0; else ins = Binary_Search(Cur, key) + 1;
+    if (key < Cur->key[0]) 
+        ins = 0; 
+
+    else ins = Binary_Search(Cur, key) + 1;
+
     for (i = Cur->key_num; i > ins; i--) {
         Cur->key[i] = Cur->key[i - 1];
         Cur->child[i] = Cur->child[i - 1];
-        if (Cur->isLeaf) Cur->pos[i] = Cur->pos[i - 1];
+        if (Cur->isLeaf) 
+            Cur->pos[i] = Cur->pos[i - 1];
     }
+
     Cur->key_num++;
     Cur->key[ins] = key;
     Cur->child[ins] = value;
     Cur->pos[ins] = pos;
+
     if (Cur->isLeaf == false) { // make links on leaves
         BPlusTreeNode* firstChild = (BPlusTreeNode*)(Cur->child[0]);
         if (firstChild->isLeaf == true) { // which means value is also a leaf as child[0]
@@ -127,7 +127,7 @@ void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
             } else {
                 // do not have a prevChild, then refer next directly
                 // updated: the very first record on B+tree, and will not come to this case
-                temp->next = Cur->child[1];
+                temp->next = (BPlusTreeNode*)Cur->child[1];
                 printf("this happens\n");
             }
         }
@@ -198,7 +198,7 @@ void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
 void Redistribute(BPlusTreeNode* Cur) {
     if (Cur->isRoot) {
         if (Cur->key_num == 1 && !Cur->isLeaf) {
-            Root = Cur->child[0];
+            Root = (BPlusTreeNode*)Cur->child[0];
             Root->isRoot = true;
             free(Cur);
         }
@@ -209,8 +209,9 @@ void Redistribute(BPlusTreeNode* Cur) {
     BPlusTreeNode* succChild;
     BPlusTreeNode* temp;
     int my_index = Binary_Search(Father, Cur->key[0]);
+
     if (my_index + 1 < Father->key_num) {
-        succChild = Father->child[my_index + 1];
+        succChild = (BPlusTreeNode*)Father->child[my_index + 1];
         if ((succChild->key_num - 1) * 2 >= MaxChildNumber) { // at least can move one child to Cur
             Resort(Cur, succChild); // (1) resort with right child
             Father->key[my_index + 1] = succChild->key[0];
@@ -218,7 +219,7 @@ void Redistribute(BPlusTreeNode* Cur) {
         }
     }
     if (my_index - 1 >= 0) {
-        prevChild = Father->child[my_index - 1];
+        prevChild = (BPlusTreeNode*)Father->child[my_index - 1];
         if ((prevChild->key_num - 1) * 2 >= MaxChildNumber) {
             Resort(prevChild, Cur); // (2) resort with left child
             Father->key[my_index] = Cur->key[0];
@@ -309,10 +310,10 @@ BPlusTreeNode* Find(int key, int modify) {
             break;
         if (key < Cur->key[0]) {
             if (modify == true) Cur->key[0] = key;
-            Cur = Cur->child[0];
+            Cur = (BPlusTreeNode*)Cur->child[0];
         } else {
             int i = Binary_Search(Cur, key);
-            Cur = Cur->child[i];
+            Cur = (BPlusTreeNode*)Cur->child[i];
         }
     }
     return Cur;
@@ -327,7 +328,7 @@ void Destroy(BPlusTreeNode* Cur) {
     } else {
         int i;
         for (i = 0; i < Cur->key_num; i++)
-            Destroy(Cur->child[i]);
+            Destroy((BPlusTreeNode*)Cur->child[i]);
     }
     free(Cur);
 }
@@ -340,7 +341,7 @@ void Print(BPlusTreeNode* Cur) {
     printf("\n");
     if (!Cur->isLeaf) {
         for (i = 0; i < Cur->key_num; i++)
-            Print(Cur->child[i]);
+            Print((BPlusTreeNode*)Cur->child[i]);
     }
 }
 

@@ -1,7 +1,7 @@
 #include"Common.h"
-#include "BPlusTree.h"
-#include "FileDo.h"
-
+#include"BPlusTree.h"
+#include"FileDo.h"
+#include"Global.h"
 
 /** Show Help */
 void ShowHelp() {
@@ -42,8 +42,9 @@ void MainLoop() {
                 // args
                 built = false;
                 validRecords = 0;
-                break;
-            }
+                
+            }break;
+
             case 1:
             {
                 // Set Depth
@@ -62,8 +63,9 @@ void MainLoop() {
                 }
                 printf("Desired depth = %d, calculated maxChildNumber = %d\n", depth, maxCh);
                 BPlusTree_SetMaxChildNumber(maxCh);
-                break;
-            }
+                
+            }break;
+
             case 2:
             {
                 // Set MaxChildNumber
@@ -71,8 +73,9 @@ void MainLoop() {
                 int maxCh;
                 scanf("%d", &maxCh);
                 BPlusTree_SetMaxChildNumber(maxCh);
-                break;
-            }
+                
+            }break;
+            
             case 3:
             {
                 // Build B+tree
@@ -88,8 +91,9 @@ void MainLoop() {
                 printf("Valid Records inserted on B+tree = %d\n", validRecords);
                 printf("Total number of B+tree nodes = %d\n", BPlusTree_GetTotalNodes());
                 printf("Build B+tree costs %lf s\n", (end_time - start_time) / CLOCKS_PER_SEC);
-                break;
-            }
+                
+            }break;
+            
             case 4:
             {
                 // Query on a key
@@ -100,8 +104,9 @@ void MainLoop() {
                 BPlusTree_Query_Key(key);
                 end_time = clock();
                 printf("Query on a key, costs %lf s\n", (end_time - start_time) / CLOCKS_PER_SEC);
-                break;
-            }
+                
+            }break;
+
             case 5:
             {
                 // Query on a range [l, r]
@@ -117,13 +122,14 @@ void MainLoop() {
                 BPlusTree_Query_Range(l, r);
                 end_time = clock();
                 printf("Query on a range, costs %lf s\n", (end_time - start_time) / CLOCKS_PER_SEC);
-                break;
-            }
+                
+            }break;
+
             case 6:
             {
                 // Modify value on a key
                 printf("input (key, value): ");
-                scanf("%d %s", &new_key, new_st);
+                scanf("%d,%s", &new_key, new_st);
                 char* value = (char*)malloc(sizeof(char) * strlen(new_st));
                 strcpy(value, new_st);
                 start_time = clock();
@@ -143,8 +149,9 @@ void MainLoop() {
                 }
                 end_time = clock();
                 printf("Modify value on a key, costs %lf s\n", (end_time - start_time) / CLOCKS_PER_SEC);
-                break;
-            }
+                
+            }break;
+
             case 7: {
                 // Delete value on a key
                 printf("input key: ");
@@ -161,11 +168,15 @@ void MainLoop() {
                 }
                 end_time = clock();
                 printf("Delete value on a key, costs %lf s\n", (end_time - start_time) / CLOCKS_PER_SEC);
-                break;
-            }
+               
+            }break;
+
             case 8: {
                 printf("input (key, value): ");
-                scanf("%d %s", &new_key, new_st);
+                /*
+                    根据提示，两个输入之间添加逗号，但不完善
+                */
+                scanf("%d, %s", &new_key, new_st);
                 char* value = (char*)malloc(sizeof(char) * new_len);
                 strcpy(value, new_st);
 
@@ -179,16 +190,15 @@ void MainLoop() {
                 } else {
                     printf("Insert failed, the key already exist.\n");
                 }
-                break;
-            }
+                
+            }break;
+
             case 9: return;
             default: break;
         }
     }
     BPlusTree_Destroy();
 }
-
-
 
 int main(int argc, char *argv[]) {
     // set input_file, output_file

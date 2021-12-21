@@ -1,5 +1,6 @@
-#include "FileDo.h"
-#include "BPlusTree.h"
+#include"FileDo.h"
+#include"BPlusTree.h"
+#include"Global.h"
 
 /**
 * Read_Buffer(char *input_file) -> buffer
@@ -28,8 +29,6 @@ void Read_Buffer(char *input_file) {
     fclose(fin);
 }
 
-
-
 /** Read and insert records into B+tree */
 void Read_Data_And_Insert() {
     int rid = 0;
@@ -56,7 +55,7 @@ void Read_Data_And_Insert() {
         char* value = (char*)malloc(sizeof(char) * new_len);
         strcpy(value, new_st);
         keys[key_num++] = new_key;
-        if (BPlusTree_Insert(new_key, new_pos, value) == true) validRecords++; // for "ex-data.txt", valid = 9950138
+        //if (BPlusTree_Insert(new_key, new_pos, value) == true) validRecords++; // for "ex-data.txt", valid = 9950138
     }
     free(buffer);
     buffer = NULL;
@@ -300,7 +299,7 @@ void modify_test() {
         int pos = BPlusTree_Find(new_key);
         if (pos != -1) { // found
             if (File_Modify(pos, new_key, new_st)) { // file modify success
-                BPlusTree_Modify(new_key, value);
+                // BPlusTree_Modify(new_key, value);
                 //printf("Modify success.\n");
             } else {
                 //printf("Modify failed, the new value is too long to store in file\n");
