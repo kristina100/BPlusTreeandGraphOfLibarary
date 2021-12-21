@@ -1,3 +1,0 @@
-C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/CMakeFiles/Bplustree.dir
-C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/CMakeFiles/edit_cache.dir
