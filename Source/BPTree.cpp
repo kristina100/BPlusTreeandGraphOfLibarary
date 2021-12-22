@@ -3,13 +3,16 @@
  * @Author: 
  * @Date: 2021-12-22 20:20:34
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-22 20:44:00
+ * @LastEditTime: 2021-12-22 21:16:40
  */
 #include"BPTree.h"r
 
 int MaxChildNumber = 50;
 int TotalNodes;
 int QueryAnsNum;
+
+//包含树根结点root和树底左端结点sqt
+Root Global_Root;
 
 /**
  * @brief 初始化B+树结点
@@ -22,10 +25,14 @@ BPTree BPT_CreateNode(){
         return NULL;
 
     node->isLeaf = false;
+    node->isRoot = false;
     node->keyNum = 0;
     node->nextLeaf = NULL;
     node->parent = NULL;
     node->preLeaf = NULL;
+    node->record = NULL;
+    TotalNodes++;
+
     return node;
 }
 
@@ -85,6 +92,32 @@ void BPT_Split(BPTree Cur){
             ch->father = Temp;
         }
     }
+    //更新Cur的keyNum
+    Cur->keyNum = Mid;
 
+    //Cur为根结点
+    if(Cur->isRoot){
+        //创建新的内部节点root,树深增加
+        BPTree NewRoot = BPT_CreateNode();
+        NewRoot->keyNum = 2;
+        NewRoot->isLeaf = false;
 
+        NewRoot->key[1] = Cur->key[0];
+        NewRoot->ptr[1] = Cur;
+        NewRoot->key[2] = Temp->key[0];
+        NewRoot->ptr[2] = Temp;
+        Cur->parent = Temp->parent = NewRoot;
+        //变为非根结点
+        Cur->isRoot = false;
+        if(Cur->isLeaf){
+            Cur->nextLeaf = Temp;
+            Temp->preLeaf = Cur;
+        }
+    }
+    //Cur为叶子结点或內部结点
+    else{
+        Temp->parent = Cur->parent;
+        //插入
+        
+    }
 }

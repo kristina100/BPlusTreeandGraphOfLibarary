@@ -3,7 +3,7 @@
  * @Author: 
  * @Date: 2021-12-22 20:15:40
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-22 20:53:12
+ * @LastEditTime: 2021-12-22 21:09:46
  */
 #ifndef _BPTREE_H_INCLUDE_
 #define _BPTREE_H_INCLUDE_
@@ -15,6 +15,7 @@
 //B+树结构体
 typedef struct BPTNode{
     Status isLeaf;              //标记是否为叶子结点,叶子为TRUE
+    Status isRoot;              //标记是否为根结点,根为TRUE
     int keyNum;                 //结点中关键字的数量
     struct BPTNode *parent;     //指向双亲结点
     struct BPTNode *nextLeaf;   //下一个叶子结点
