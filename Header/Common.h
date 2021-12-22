@@ -3,7 +3,7 @@
  * @Author: Hx
  * @Date: 2021-12-02 11:23:10
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-22 20:47:57
+ * @LastEditTime: 2021-12-22 20:52:06
  */
 #ifndef COMMON_H_INCLUDE
 #define COMMON_H_INCLUDE
@@ -27,13 +27,5 @@
 //常用类型
 typedef int Status;
 typedef int KeyType;
-
-/**
- * @brief RcdType结构
- * 
- */
-typedef struct{
-    KeyType key;
-}RcdType;
 
 #endif //COMMON_H_INCLUDE
