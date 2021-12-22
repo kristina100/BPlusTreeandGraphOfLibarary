@@ -60,7 +60,7 @@ void Split(BPlusTreeNode* Cur) {
         if (Temp->isLeaf) {
             Temp->pos[i - Mid] = Cur->pos[i];
         } else {
-            ch = (BPlusTreeNode*)Temp->child[i - Mid];
+            ch = Temp->child[i - Mid];
             ch->father = Temp;
         }
     }
@@ -85,13 +85,12 @@ void Split(BPlusTreeNode* Cur) {
     } else {
         // Try to insert Temp to Cur->father
         Temp->father = Cur->father;
-        // Insert(Cur->father, Cur->key[Mid], -1, (void*)Temp);
         Insert(Cur->father, Cur->key[Mid], -1, Temp);
     } 
 }
 
 /** Insert (key, value) into Cur, if Cur is full, then split it to fit the definition of B+tree */
-void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
+void Insert(BPlusTreeNode* Cur, int key, int pos, BPlusTreeNode* value)
 {
     int i, ins;
     if (key < Cur->key[0]) 
@@ -99,6 +98,7 @@ void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
 
     else ins = Binary_Search(Cur, key) + 1;
 
+    //调整key和pos位置
     for (i = Cur->key_num; i > ins; i--) {
         Cur->key[i] = Cur->key[i - 1];
         Cur->child[i] = Cur->child[i - 1];
@@ -106,15 +106,17 @@ void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
             Cur->pos[i] = Cur->pos[i - 1];
     }
 
+    //插入新key
     Cur->key_num++;
     Cur->key[ins] = key;
     Cur->child[ins] = value;
     Cur->pos[ins] = pos;
 
-    if (Cur->isLeaf == false) { // make links on leaves
-        BPlusTreeNode* firstChild = (BPlusTreeNode*)(Cur->child[0]);
+    // make links on leaves连接叶子
+    if (Cur->isLeaf == false) { 
+        BPlusTreeNode* firstChild = Cur->child[0];
         if (firstChild->isLeaf == true) { // which means value is also a leaf as child[0]
-            BPlusTreeNode* temp = (BPlusTreeNode*)(value);
+            BPlusTreeNode* temp = value;
             if (ins > 0) {
                 BPlusTreeNode* prevChild;
                 BPlusTreeNode* succChild;
@@ -127,7 +129,7 @@ void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
             } else {
                 // do not have a prevChild, then refer next directly
                 // updated: the very first record on B+tree, and will not come to this case
-                temp->next = (BPlusTreeNode*)Cur->child[1];
+                temp->next = Cur->child[1];
                 printf("this happens\n");
             }
         }
@@ -149,7 +151,7 @@ void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
             if (Left->isLeaf) {
                 Left->pos[Left->key_num] = Right->pos[i];
             } else {
-                temp = (BPlusTreeNode*)(Right->child[i]);
+                temp = Right->child[i];
                 temp->father = Left;
             }
             Left->key_num++;
@@ -177,7 +179,7 @@ void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
             if (Right->isLeaf) {
                 Right->pos[j] = Left->pos[i];
             } else {
-                temp = (BPlusTreeNode*)Left->child[i];
+                temp = Left->child[i];
                 temp->father = Right;
             }
             j++;
@@ -198,7 +200,7 @@ void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
 void Redistribute(BPlusTreeNode* Cur) {
     if (Cur->isRoot) {
         if (Cur->key_num == 1 && !Cur->isLeaf) {
-            Root = (BPlusTreeNode*)Cur->child[0];
+            Root = Cur->child[0];
             Root->isRoot = true;
             free(Cur);
         }
@@ -211,7 +213,7 @@ void Redistribute(BPlusTreeNode* Cur) {
     int my_index = Binary_Search(Father, Cur->key[0]);
 
     if (my_index + 1 < Father->key_num) {
-        succChild = (BPlusTreeNode*)Father->child[my_index + 1];
+        succChild = Father->child[my_index + 1];
         if ((succChild->key_num - 1) * 2 >= MaxChildNumber) { // at least can move one child to Cur
             Resort(Cur, succChild); // (1) resort with right child
             Father->key[my_index + 1] = succChild->key[0];
@@ -219,7 +221,7 @@ void Redistribute(BPlusTreeNode* Cur) {
         }
     }
     if (my_index - 1 >= 0) {
-        prevChild = (BPlusTreeNode*)Father->child[my_index - 1];
+        prevChild = Father->child[my_index - 1];
         if ((prevChild->key_num - 1) * 2 >= MaxChildNumber) {
             Resort(prevChild, Cur); // (2) resort with left child
             Father->key[my_index] = Cur->key[0];
@@ -234,7 +236,7 @@ void Redistribute(BPlusTreeNode* Cur) {
             if (Cur->isLeaf) {
                 Cur->pos[Cur->key_num] = succChild->pos[i];
             } else {
-                temp = (BPlusTreeNode*)(succChild->child[i]);
+                temp = succChild->child[i];
                 temp->father = Cur;
             }
             Cur->key_num++;
@@ -266,7 +268,7 @@ void Redistribute(BPlusTreeNode* Cur) {
 /** 从Cur中删除键，如果孩子的数量<(MaxChildNUmber / 2)，则与兄弟合并。 */
 void Delete(BPlusTreeNode* Cur, int key) {
     int i, del = Binary_Search(Cur, key);
-    void* delChild = Cur->child[del];
+    BPlusTreeNode* delChild = Cur->child[del];
     for (i = del; i < Cur->key_num - 1; i++) {
         Cur->key[i] = Cur->key[i + 1];
         Cur->child[i] = Cur->child[i + 1];
@@ -274,9 +276,9 @@ void Delete(BPlusTreeNode* Cur, int key) {
     }
     Cur->key_num--;
     if (Cur->isLeaf == false) { // make links on leaves
-        BPlusTreeNode* firstChild = (BPlusTreeNode*)(Cur->child[0]);
+        BPlusTreeNode* firstChild = Cur->child[0];
         if (firstChild->isLeaf == true) { // which means delChild is also a leaf
-            BPlusTreeNode* temp = (BPlusTreeNode*)delChild;
+            BPlusTreeNode* temp = delChild;
             BPlusTreeNode* prevChild = temp->last;
             BPlusTreeNode* succChild = temp->next;
             if (prevChild != NULL) prevChild->next = succChild;
@@ -310,10 +312,10 @@ BPlusTreeNode* Find(int key, int modify) {
             break;
         if (key < Cur->key[0]) {
             if (modify == true) Cur->key[0] = key;
-            Cur = (BPlusTreeNode*)Cur->child[0];
+            Cur = Cur->child[0];
         } else {
             int i = Binary_Search(Cur, key);
-            Cur = (BPlusTreeNode*)Cur->child[i];
+            Cur = Cur->child[i];
         }
     }
     return Cur;
@@ -328,7 +330,7 @@ void Destroy(BPlusTreeNode* Cur) {
     } else {
         int i;
         for (i = 0; i < Cur->key_num; i++)
-            Destroy((BPlusTreeNode*)Cur->child[i]);
+            Destroy(Cur->child[i]);
     }
     free(Cur);
 }
@@ -341,15 +343,18 @@ void Print(BPlusTreeNode* Cur) {
     printf("\n");
     if (!Cur->isLeaf) {
         for (i = 0; i < Cur->key_num; i++)
-            Print((BPlusTreeNode*)Cur->child[i]);
+            Print(Cur->child[i]);
     }
 }
 
 /** 插入新树 */
-int BPlusTree_Insert(int key, int pos, void* value) {
+int BPlusTree_Insert(int key, int pos, BPlusTreeNode* value) {
     BPlusTreeNode* Leaf = Find(key, true);
     int i = Binary_Search(Leaf, key);
+
+    //key已已存在
     if (Leaf->key[i] == key) return false;
+
     Insert(Leaf, key, pos, value);
     return true;
 }
@@ -363,7 +368,8 @@ void BPlusTree_Query_Key(int key) {
         //printf("%d ", Leaf->key[i]);
         if (Leaf->key[i] == key) {
             QueryAnsNum++;
-            if (QueryAnsNum < 20) printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], (char*)Leaf->child[i]);
+            if (QueryAnsNum < 20) 
+                printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], Leaf->child[i]->book[i]->Title);
         }
     }
     printf("Total number of answers is: %d\n", QueryAnsNum);
@@ -387,7 +393,7 @@ void BPlusTree_Query_Range(int l, int r) {
             }
             QueryAnsNum++;
             if (QueryAnsNum == 20) printf("...\n");
-            if (QueryAnsNum < 20) printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], (char*)Leaf->child[i]);
+            if (QueryAnsNum < 20) printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], Leaf->child[i]->book[i]->Title);
             i++;
         }
         if (finish || Leaf->next == NULL) break;
@@ -406,11 +412,11 @@ int BPlusTree_Find(int key) {
 }
 
 /** Interface: 修改给定键上的值 */
-void BPlusTree_Modify(int key, void* value) {
+void BPlusTree_Modify(int key, BPlusTreeNode* value) {
     BPlusTreeNode* Leaf = Find(key, false);
     int i = Binary_Search(Leaf, key);
     if (Leaf->key[i] != key) return; // don't have this key
-    printf("Modify: key = %d, original value = %s, new value = %s\n", key, (char*)(Leaf->child[i]), (char*)(value));
+    printf("Modify: key = %d, original value = %s, new value = %s\n", key, Leaf->child[i]->book[i]->ISBN, value->book[i]->Title);
     free(Leaf->child[i]);
     Leaf->child[i] = value;
 }
@@ -420,7 +426,7 @@ void BPlusTree_Delete(int key) {
     BPlusTreeNode* Leaf = Find(key, false);
     int i = Binary_Search(Leaf, key);
     if (Leaf->key[i] != key) return; // don't have this key
-    printf("Delete: key = %d, original value = %s\n", key, (char*)(Leaf->child[i]));
+    printf("Delete: key = %d, original value = %s\n", key, Leaf->child[i]->book[i]->Title);
     Delete(Leaf, key);
 }
 

@@ -1,9 +1,9 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 全局变量 .cpp文件
  * @Author: Hx
  * @Date: 2021-12-21 20:59:30
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-21 20:59:30
+ * @LastEditTime: 2021-12-22 12:51:18
  */
 // file
 char input_file[100];

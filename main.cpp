@@ -2,6 +2,7 @@
 #include"BPlusTree.h"
 #include"FileDo.h"
 #include"Global.h"
+#include"Utils.h"
 
 /** Show Help */
 void ShowHelp() {
@@ -63,6 +64,7 @@ void MainLoop() {
                 }
                 printf("Desired depth = %d, calculated maxChildNumber = %d\n", depth, maxCh);
                 BPlusTree_SetMaxChildNumber(maxCh);
+
                 
             }break;
 
@@ -91,7 +93,6 @@ void MainLoop() {
                 printf("Valid Records inserted on B+tree = %d\n", validRecords);
                 printf("Total number of B+tree nodes = %d\n", BPlusTree_GetTotalNodes());
                 printf("Build B+tree costs %lf s\n", (end_time - start_time) / CLOCKS_PER_SEC);
-                
             }break;
             
             case 4:
@@ -172,25 +173,45 @@ void MainLoop() {
             }break;
 
             case 8: {
-                printf("input (key, value): ");
-                /*
-                    根据提示，两个输入之间添加逗号，但不完善
-                */
-                scanf("%d, %s", &new_key, new_st);
-                char* value = (char*)malloc(sizeof(char) * new_len);
-                strcpy(value, new_st);
+                Book book = NULL;
+                // 新建一个结点,每个结点只存一本书
+                // BPlusTreeNode *demo;
+                inputBookInfo(book);
+                // demo->book[i] = book;
+                strcpy(new_st, book->Title);
+                new_key = book->ISBN;
 
                 int pos = BPlusTree_Find(new_key);
-                if (pos == -1) {
+
+                if (pos == -1) 
+                {
                     new_pos = File_Insert(new_key, new_st);
                     keys[key_num++] = new_key;
-                    BPlusTree_Insert(new_key, new_pos, value);
+                    BPlusTree_Insert(new_key, new_pos, book);
                     validRecords++;
                     printf("Insert success.\n");
-                } else {
+                } 
+                else 
+                {
                     printf("Insert failed, the key already exist.\n");
-                }
-                
+                }  
+
+                // printf("input (key, value): ");
+                // scanf("%d, %s", &new_key, new_st);
+                // char* value = (char*)malloc(sizeof(char) * new_len);
+                // strcpy(value, new_st);
+
+                // int pos = BPlusTree_Find(new_key);
+                // if (pos == -1) {
+                //     new_pos = File_Insert(new_key, new_st);
+                //     keys[key_num++] = new_key;
+                //     // BPlusTree_Insert(new_key, new_pos, value);
+                //     validRecords++;
+                //     printf("Insert success.\n");
+                // } else {
+                //     printf("Insert failed, the key already exist.\n");
+                // }  
+
             }break;
 
             case 9: return;

@@ -1,9 +1,9 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 全局变量 .h文件
  * @Author: Hx
  * @Date: 2021-12-21 20:46:24
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-21 20:47:30
+ * @LastEditTime: 2021-12-22 12:51:19
  */
 #ifndef GLOBAL_VARIABLE
 #define GLOBAL_VARIABLE
