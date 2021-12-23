@@ -189,7 +189,7 @@ void MainLoop() {
                 {
                     new_pos = File_Insert(new_key, new_st);
                     keys[key_num++] = new_key;
-                    BPlusTree_Insert(new_key, new_pos, demo);
+                    BPlusTree_Insert(new_key, new_pos, new_st);
                     validRecords++;
                     printf("Insert success.\n");
                 } 
