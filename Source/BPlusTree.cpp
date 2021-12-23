@@ -1,25 +1,15 @@
-//
-// Created by HUAWEI on 2021-12-21.
-//
+#include"../Header/FileDo.h"
+#include"../Header/BPlusTree.h"
+#include"../Header/Global.h"
 
-#include ".."
-#include "Header/FileDo.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-#define true 1
-#define false 0
-
-struct BPlusTreeNode* Root;
-
+struct BPTNode* Root;
 int MaxChildNumber = 50;
 int TotalNodes;
-
 int QueryAnsNum;
 
-/** å»ºç«‹æ–°çš„ç»“ç‚¹ */
-BPlusTreeNode* New_BPlusTreeNode() {
-    struct BPlusTreeNode* p = (struct BPlusTreeNode*)malloc(sizeof(struct BPlusTreeNode));
+/** ½¨Á¢ĞÂµÄ½áµã */
+BPTNode* New_BPlusTreeNode() {
+    struct BPTNode* p = (struct BPTNode*)malloc(sizeof(struct BPTNode));
     p->isRoot = false;
     p->isLeaf = false;
     p->key_num = 0;
@@ -31,12 +21,16 @@ BPlusTreeNode* New_BPlusTreeNode() {
     return p;
 }
 
-/** æœç´¢ï¼Œæ‰¾åˆ° Cur->key[l]<=key çš„æœ€å¤§çš„å­©å­ lã€‚ */
-int Binary_Search(BPlusTreeNode* Cur, int key)
+/** ËÑË÷£¬ÕÒµ½ Cur->key[l]<=key µÄ×î´óµÄº¢×Ó l¡£ */
+int Binary_Search(BPTNode* Cur, int key)
 {
     int l = 0, r = Cur->key_num;
-    if (key < Cur->key[l]) return l;
-    if (Cur->key[r - 1] <= key) return r - 1;
+    if (key < Cur->key[l]) 
+        return l;
+
+    if (Cur->key[r - 1] <= key) 
+        return r - 1;
+
     while (l < r - 1) {
         int mid = (l + r) >> 1;
         if (Cur->key[mid] > key)
@@ -48,32 +42,31 @@ int Binary_Search(BPlusTreeNode* Cur, int key)
 }
 
 /**
- * Cur(MaxChildNumber)è¢«åˆ†æˆä¸¤éƒ¨åˆ†ã€‚
- * (1) Cur(0 ... Mid - 1)ï¼Œå¸¦æœ‰åŸå§‹é”®
+ * Cur(MaxChildNumber)±»·Ö³ÉÁ½²¿·Ö¡£
+ * (1) Cur(0 ... Mid - 1)£¬´øÓĞÔ­Ê¼¼ü
  * (2) Temp(Mid ... MaxChildNumber) with key[Mid]
- * å…¶ä¸­ Mid = MaxChildNumber / 2
- * æ³¨æ„ï¼Œåªæœ‰å½“Split()è¢«è°ƒç”¨æ—¶ï¼Œæ‰ä¼šåˆ›å»ºä¸€ä¸ªæ–°çš„èŠ‚ç‚¹
+ * ÆäÖĞ Mid = MaxChildNumber / 2
+ * ×¢Òâ£¬Ö»ÓĞµ±Split()±»µ÷ÓÃÊ±£¬²Å»á´´½¨Ò»¸öĞÂµÄ½Úµã
  */
-
-
-void Split(BPlusTreeNode* Cur) {
+void Split(BPTNode* Cur) {
     // copy Cur(Mid .. MaxChildNumber) -> Temp(0 .. Temp->key_num)
-    BPlusTreeNode* Temp = New_BPlusTreeNode();
-    BPlusTreeNode* ch;
+    BPTNode* Temp = New_BPlusTreeNode();
+    BPTNode* ch;
     int Mid = MaxChildNumber >> 1;
     Temp->isLeaf = Cur->isLeaf; // Temp's depth == Cur's depth
     Temp->key_num = MaxChildNumber - Mid;
-    int i;
-    for (i = Mid; i < MaxChildNumber; i++) {
+ 
+    for (int i = Mid; i < MaxChildNumber; i++) {
         Temp->child[i - Mid] = Cur->child[i];
         Temp->key[i - Mid] = Cur->key[i];
         if (Temp->isLeaf) {
             Temp->pos[i - Mid] = Cur->pos[i];
         } else {
-            ch = (BPlusTreeNode*)Temp->child[i - Mid];
+            ch = Temp->child[i - Mid];
             ch->father = Temp;
         }
     }
+
     // Change Cur
     Cur->key_num = Mid;
     // Insert Temp
@@ -95,32 +88,42 @@ void Split(BPlusTreeNode* Cur) {
     } else {
         // Try to insert Temp to Cur->father
         Temp->father = Cur->father;
-        Insert(Cur->father, Cur->key[Mid], -1, (void*)Temp);
-    }
+        Insert(Cur->father, Cur->key[Mid], -1, Temp);
+    } 
 }
 
 /** Insert (key, value) into Cur, if Cur is full, then split it to fit the definition of B+tree */
-void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
-{
+void Insert(BPTNode* Cur, int key, int pos, BPTNode* value){
     int i, ins;
-    if (key < Cur->key[0]) ins = 0; else ins = Binary_Search(Cur, key) + 1;
+    if (key < Cur->key[0]) 
+        ins = 0; 
+
+    else ins = Binary_Search(Cur, key) + 1;
+
+    //µ÷ÕûkeyºÍposÎ»ÖÃ
     for (i = Cur->key_num; i > ins; i--) {
         Cur->key[i] = Cur->key[i - 1];
         Cur->child[i] = Cur->child[i - 1];
-        if (Cur->isLeaf) Cur->pos[i] = Cur->pos[i - 1];
+        if (Cur->isLeaf) 
+            Cur->pos[i] = Cur->pos[i - 1];
     }
+
+    //²åÈëĞÂkey
     Cur->key_num++;
     Cur->key[ins] = key;
     Cur->child[ins] = value;
     Cur->pos[ins] = pos;
-    if (Cur->isLeaf == false) { // make links on leaves
-        BPlusTreeNode* firstChild = (BPlusTreeNode*)(Cur->child[0]);
-        if (firstChild->isLeaf == true) { // which means value is also a leaf as child[0]
-            BPlusTreeNode* temp = (BPlusTreeNode*)(value);
+
+    // make links on leavesÁ¬½ÓÒ¶×Ó
+    if (Cur->isLeaf == false) { 
+        BPTNode* firstChild = Cur->child[0];
+        if (firstChild->isLeaf == true) {
+            // which means value is also a leaf as child[0]
+            BPTNode* temp = value;
             if (ins > 0) {
-                BPlusTreeNode* prevChild;
-                BPlusTreeNode* succChild;
-                prevChild = (BPlusTreeNode*)Cur->child[ins - 1];
+                BPTNode* prevChild;
+                BPTNode* succChild;
+                prevChild = Cur->child[ins - 1];
                 succChild = prevChild->next;
                 prevChild->next = temp;
                 temp->next = succChild;
@@ -139,9 +142,9 @@ void Insert(BPlusTreeNode* Cur, int key, int pos, void* value)
 }
 
 /** Resort(Give, Get) make their no. of children average */
-void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
+void Resort(BPTNode* Left, BPTNode* Right) {
     int total = Left->key_num + Right->key_num;
-    BPlusTreeNode* temp;
+    BPTNode* temp;
     if (Left->key_num < Right->key_num) {
         int leftSize = total >> 1;
         int i = 0, j = 0;
@@ -151,7 +154,7 @@ void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
             if (Left->isLeaf) {
                 Left->pos[Left->key_num] = Right->pos[i];
             } else {
-                temp = (BPlusTreeNode*)(Right->child[i]);
+                temp = Right->child[i];
                 temp->father = Left;
             }
             Left->key_num++;
@@ -179,7 +182,7 @@ void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
             if (Right->isLeaf) {
                 Right->pos[j] = Left->pos[i];
             } else {
-                temp = (BPlusTreeNode*)Left->child[i];
+                temp = Left->child[i];
                 temp->father = Right;
             }
             j++;
@@ -190,14 +193,14 @@ void Resort(BPlusTreeNode* Left, BPlusTreeNode* Right) {
 }
 
 /**
-é‡æ–°åˆ†é…Curï¼Œä½¿ç”¨ä»¥ä¸‹ç­–ç•¥ã€‚
- * (1) ä¸å³è¾¹çš„å…„å¼Ÿä¸€èµ·resort
- * (2) ä¸å·¦è¾¹çš„å…„å¼Ÿresort
- * (3) ä¸å³è¾¹çš„å…„å¼Ÿåˆå¹¶
- * (4) ä¸å·¦ç¿¼å…„å¼Ÿåˆå¹¶
- * åœ¨è¿™ç§æƒ…å†µä¸‹ï¼Œæ ¹åªæœ‰ä¸€ä¸ªå­©å­ï¼ŒæŠŠè¿™ä¸ªå­©å­è®¾ä¸ºæ ¹ã€‚
+ÖØĞÂ·ÖÅäCur£¬Ê¹ÓÃÒÔÏÂ²ßÂÔ¡£
+ * (1) ÓëÓÒ±ßµÄĞÖµÜÒ»Æğresort
+ * (2) Óë×ó±ßµÄĞÖµÜresort
+ * (3) ÓëÓÒ±ßµÄĞÖµÜºÏ²¢
+ * (4) Óë×óÒíĞÖµÜºÏ²¢
+ * ÔÚÕâÖÖÇé¿öÏÂ£¬¸ùÖ»ÓĞÒ»¸öº¢×Ó£¬°ÑÕâ¸öº¢×ÓÉèÎª¸ù¡£
  */
-void Redistribute(BPlusTreeNode* Cur) {
+void Redistribute(BPTNode* Cur) {
     if (Cur->isRoot) {
         if (Cur->key_num == 1 && !Cur->isLeaf) {
             Root = Cur->child[0];
@@ -206,11 +209,12 @@ void Redistribute(BPlusTreeNode* Cur) {
         }
         return;
     }
-    BPlusTreeNode* Father = Cur->father;
-    BPlusTreeNode* prevChild;
-    BPlusTreeNode* succChild;
-    BPlusTreeNode* temp;
+    BPTNode* Father = Cur->father;
+    BPTNode* prevChild;
+    BPTNode* succChild;
+    BPTNode* temp;
     int my_index = Binary_Search(Father, Cur->key[0]);
+
     if (my_index + 1 < Father->key_num) {
         succChild = Father->child[my_index + 1];
         if ((succChild->key_num - 1) * 2 >= MaxChildNumber) { // at least can move one child to Cur
@@ -235,7 +239,7 @@ void Redistribute(BPlusTreeNode* Cur) {
             if (Cur->isLeaf) {
                 Cur->pos[Cur->key_num] = succChild->pos[i];
             } else {
-                temp = (BPlusTreeNode*)(succChild->child[i]);
+                temp = succChild->child[i];
                 temp->father = Cur;
             }
             Cur->key_num++;
@@ -252,7 +256,7 @@ void Redistribute(BPlusTreeNode* Cur) {
             if (Cur->isLeaf) {
                 prevChild->pos[prevChild->key_num] = Cur->pos[i];
             } else {
-                temp = (BPlusTreeNode*)(Cur->child[i]);
+                temp = (BPTNode*)(Cur->child[i]);
                 temp->father = prevChild;
             }
             prevChild->key_num++;
@@ -264,10 +268,10 @@ void Redistribute(BPlusTreeNode* Cur) {
     printf("What?! you're the only child???\n"); // this won't happen
 }
 
-/** ä»Curä¸­åˆ é™¤é”®ï¼Œå¦‚æœå­©å­çš„æ•°é‡<(MaxChildNUmber / 2)ï¼Œåˆ™ä¸å…„å¼Ÿåˆå¹¶ã€‚ */
-void Delete(BPlusTreeNode* Cur, int key) {
+/** ´ÓCurÖĞÉ¾³ı¼ü£¬Èç¹ûº¢×ÓµÄÊıÁ¿<(MaxChildNUmber / 2)£¬ÔòÓëĞÖµÜºÏ²¢¡£ */
+void Delete(BPTNode* Cur, int key) {
     int i, del = Binary_Search(Cur, key);
-    void* delChild = Cur->child[del];
+    BPTNode* delChild = Cur->child[del];
     for (i = del; i < Cur->key_num - 1; i++) {
         Cur->key[i] = Cur->key[i + 1];
         Cur->child[i] = Cur->child[i + 1];
@@ -275,17 +279,17 @@ void Delete(BPlusTreeNode* Cur, int key) {
     }
     Cur->key_num--;
     if (Cur->isLeaf == false) { // make links on leaves
-        BPlusTreeNode* firstChild = (BPlusTreeNode*)(Cur->child[0]);
+        BPTNode* firstChild = Cur->child[0];
         if (firstChild->isLeaf == true) { // which means delChild is also a leaf
-            BPlusTreeNode* temp = (BPlusTreeNode*)delChild;
-            BPlusTreeNode* prevChild = temp->last;
-            BPlusTreeNode* succChild = temp->next;
+            BPTNode* temp = delChild;
+            BPTNode* prevChild = temp->last;
+            BPTNode* succChild = temp->next;
             if (prevChild != NULL) prevChild->next = succChild;
             if (succChild != NULL) succChild->last = prevChild;
         }
     }
     if (del == 0 && !Cur->isRoot) { // some fathers' key should be changed
-        BPlusTreeNode* temp = Cur;
+        BPTNode* temp = Cur;
         while (!temp->isRoot && temp == temp->father->child[0]) {
             temp->father->key[0] = Cur->key[0];
             temp = temp->father;
@@ -301,11 +305,11 @@ void Delete(BPlusTreeNode* Cur, int key) {
         Redistribute(Cur);
 }
 
-/** æ‰¾åˆ°ä¸€ä¸ªé”®ä½äºå…¶ä¸­çš„å¶å­èŠ‚ç‚¹
- * ä¿®æ”¹è¡¨ç¤ºé”®æ˜¯å¦åº”è¯¥å½±å“æ ‘
+/** ÕÒµ½Ò»¸ö¼üÎ»ÓÚÆäÖĞµÄÒ¶×Ó½Úµã
+ * ĞŞ¸Ä±íÊ¾¼üÊÇ·ñÓ¦¸ÃÓ°ÏìÊ÷
  */
-BPlusTreeNode* Find(int key, int modify) {
-    BPlusTreeNode* Cur = Root;
+BPTNode* Find(int key, int modify) {
+    BPTNode* Cur = Root;
     while (1) {
         if (Cur->isLeaf == true)
             break;
@@ -320,8 +324,8 @@ BPlusTreeNode* Find(int key, int modify) {
     return Cur;
 }
 
-/** é€’å½’é”€æ¯ */
-void Destroy(BPlusTreeNode* Cur) {
+/** µİ¹éÏú»Ù */
+void Destroy(BPTNode* Cur) {
     if (Cur->isLeaf == true) {
         int i;
         for (i = 0; i < Cur->key_num; i++)
@@ -334,8 +338,8 @@ void Destroy(BPlusTreeNode* Cur) {
     free(Cur);
 }
 
-/** æ‰“å°å­æ ‘ */
-void Print(BPlusTreeNode* Cur) {
+/** ´òÓ¡×ÓÊ÷ */
+void Print(BPTNode* Cur) {
     int i;
     for (i = 0; i < Cur->key_num; i++)
         printf("%d ", Cur->key[i]);
@@ -346,33 +350,37 @@ void Print(BPlusTreeNode* Cur) {
     }
 }
 
-/** æ’å…¥æ–°æ ‘ */
-int BPlusTree_Insert(int key, int pos, void* value) {
-    BPlusTreeNode* Leaf = Find(key, true);
+/** ²åÈëĞÂÊ÷ */
+int BPlusTree_Insert(int key, int pos, BPTNode* value) {
+    BPTNode* Leaf = Find(key, true);
     int i = Binary_Search(Leaf, key);
+
+    //keyÒÑÒÑ´æÔÚ
     if (Leaf->key[i] == key) return false;
+
     Insert(Leaf, key, pos, value);
     return true;
 }
 
-/** Interface: æŸ¥è¯¢æ‰€æœ‰é”®å€¼ç¬¦åˆè¯¥é”®å€¼çš„è®°å½• = query_key  */
+/** Interface: ²éÑ¯ËùÓĞ¼üÖµ·ûºÏ¸Ã¼üÖµµÄ¼ÇÂ¼ = query_key  */
 void BPlusTree_Query_Key(int key) {
-    BPlusTreeNode* Leaf = Find(key, false);
+    BPTNode* Leaf = Find(key, false);
     QueryAnsNum = 0;
     int i;
     for (i = 0; i < Leaf->key_num; i++) {
         //printf("%d ", Leaf->key[i]);
         if (Leaf->key[i] == key) {
             QueryAnsNum++;
-            if (QueryAnsNum < 20) printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], (char*)Leaf->child[i]);
+            if (QueryAnsNum < 20) 
+                printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], Leaf->child[i]->book->Title);
         }
     }
     printf("Total number of answers is: %d\n", QueryAnsNum);
 }
 
-/** Interface: æŸ¥è¯¢æ‰€æœ‰é”®å€¼æ»¡è¶³query_l <= key <= query_rçš„è®°å½•ã€‚ */
+/** Interface: ²éÑ¯ËùÓĞ¼üÖµÂú×ãquery_l <= key <= query_rµÄ¼ÇÂ¼¡£ */
 void BPlusTree_Query_Range(int l, int r) {
-    BPlusTreeNode* Leaf = Find(l, false);
+    BPTNode* Leaf = Find(l, false);
     QueryAnsNum = 0;
     int i;
     for (i = 0; i < Leaf->key_num; i++) {
@@ -388,7 +396,7 @@ void BPlusTree_Query_Range(int l, int r) {
             }
             QueryAnsNum++;
             if (QueryAnsNum == 20) printf("...\n");
-            if (QueryAnsNum < 20) printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], (char*)Leaf->child[i]);
+            // if (QueryAnsNum < 20) printf("[no.%d	key = %d, value = %s]\n", QueryAnsNum, Leaf->key[i], Leaf->child[i]->book->Title);
             i++;
         }
         if (finish || Leaf->next == NULL) break;
@@ -398,34 +406,34 @@ void BPlusTree_Query_Range(int l, int r) {
     printf("Total number of answers is: %d\n", QueryAnsNum);
 }
 
-/** Interface: æŸ¥æ‰¾ç»™å®šé”®çš„ä½ç½® */
+/** Interface: ²éÕÒ¸ø¶¨¼üµÄÎ»ÖÃ */
 int BPlusTree_Find(int key) {
-    BPlusTreeNode* Leaf = Find(key, false);
+    BPTNode* Leaf = Find(key, false);
     int i = Binary_Search(Leaf, key);
     if (Leaf->key[i] != key) return -1; // don't have this key
     return Leaf->pos[i];
 }
 
-/** Interface: ä¿®æ”¹ç»™å®šé”®ä¸Šçš„å€¼ */
-void BPlusTree_Modify(int key, void* value) {
-    BPlusTreeNode* Leaf = Find(key, false);
+/** Interface: ĞŞ¸Ä¸ø¶¨¼üÉÏµÄÖµ */
+void BPlusTree_Modify(int key, BPTNode* value) {
+    BPTNode* Leaf = Find(key, false);
     int i = Binary_Search(Leaf, key);
     if (Leaf->key[i] != key) return; // don't have this key
-    printf("Modify: key = %d, original value = %s, new value = %s\n", key, (char*)(Leaf->child[i]), (char*)(value));
+    // printf("Modify: key = %d, original value = %s, new value = %s\n", key, Leaf->child[i]->book->ISBN, value->book->Title);
     free(Leaf->child[i]);
     Leaf->child[i] = value;
 }
 
-/** Interface: åœ¨ç»™å®šçš„é”®ä¸Šåˆ é™¤å€¼ */
+/** Interface: ÔÚ¸ø¶¨µÄ¼üÉÏÉ¾³ıÖµ */
 void BPlusTree_Delete(int key) {
-    BPlusTreeNode* Leaf = Find(key, false);
+    BPTNode* Leaf = Find(key, false);
     int i = Binary_Search(Leaf, key);
     if (Leaf->key[i] != key) return; // don't have this key
-    printf("Delete: key = %d, original value = %s\n", key, (char*)(Leaf->child[i]));
+    // printf("Delete: key = %d, original value = %s\n", key, Leaf->child[i]->book->Title);
     Delete(Leaf, key);
 }
 
-/** Interface: é”€æ¯b+æ ‘ */
+/** Interface: Ïú»Ùb+Ê÷ */
 void BPlusTree_Destroy() {
     if (Root == NULL) return;
     printf("Now destroying B+tree ..\n");
@@ -434,8 +442,9 @@ void BPlusTree_Destroy() {
     printf("Done.\n");
 }
 
-/** Interface:åˆå§‹åŒ– */
-void BPlusTree_Init() {
+/** Interface:³õÊ¼»¯ */
+void BPlusTree_Init()
+{
     BPlusTree_Destroy();
     Root = New_BPlusTreeNode();
     Root->isRoot = true;
@@ -453,7 +462,7 @@ void BPlusTree_SetMaxChildNumber(int number) {
 
 /** Interface: print the tree (DEBUG use)*/
 void BPlusTree_Print() {
-    struct BPlusTreeNode* Leaf = Find(1000000000, false);
+    struct BPTNode* Leaf = Find(1000000000, false);
     int cnt = 0;
     while (Leaf != NULL) {
         int i;

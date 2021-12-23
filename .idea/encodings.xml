@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/Header/Book.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Header/Global.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/BPlusTree.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/Book.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/FileDo.cpp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Source/Student.cpp" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

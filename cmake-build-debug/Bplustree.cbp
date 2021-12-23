@@ -8,28 +8,28 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug"/>
+				<Option working_dir="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug"/>
+				<Option working_dir="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Bplustree">
-				<Option output="C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Bplustree.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug"/>
+				<Option output="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Bplustree.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -42,15 +42,15 @@
 					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 Bplustree"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 Bplustree"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Bplustree/fast">
-				<Option output="C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Bplustree.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug"/>
+				<Option output="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Bplustree.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -63,39 +63,60 @@
 					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 Bplustree/fast"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 Bplustree/fast"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug"/>
+				<Option working_dir="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/Bplustree/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/HUAWEI/CLionProjects/Bplustree/Header/BPlusTree.h">
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Header/BPlusTree.h">
 			<Option target="Bplustree"/>
 		</Unit>
-		<Unit filename="C:/Users/HUAWEI/CLionProjects/Bplustree/Header/FileDo.h">
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Header/FileDo.h">
 			<Option target="Bplustree"/>
 		</Unit>
-		<Unit filename="C:/Users/HUAWEI/CLionProjects/Bplustree/Source/BPlusTree.cpp">
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Header/Global.h">
 			<Option target="Bplustree"/>
 		</Unit>
-		<Unit filename="C:/Users/HUAWEI/CLionProjects/Bplustree/Source/FileDo.cpp">
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Header/Student.h">
 			<Option target="Bplustree"/>
 		</Unit>
-		<Unit filename="C:/Users/HUAWEI/CLionProjects/Bplustree/main.cpp">
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Header/Utils.h">
 			<Option target="Bplustree"/>
 		</Unit>
-		<Unit filename="C:/Users/HUAWEI/CLionProjects/Bplustree/CMakeLists.txt">
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Source/BPlusTree.cpp">
+			<Option target="Bplustree"/>
+		</Unit>
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Source/Book.cpp">
+			<Option target="Bplustree"/>
+		</Unit>
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Source/FileDo.cpp">
+			<Option target="Bplustree"/>
+		</Unit>
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Source/Global.cpp">
+			<Option target="Bplustree"/>
+		</Unit>
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Source/Student.cpp">
+			<Option target="Bplustree"/>
+		</Unit>
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/Source/Utils.cpp">
+			<Option target="Bplustree"/>
+		</Unit>
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/main.cpp">
+			<Option target="Bplustree"/>
+		</Unit>
+		<Unit filename="C:/Users/HUAWEI/CLionProjects/BPlusTreeandGraphOfLibarary/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
