@@ -3,7 +3,7 @@
  * @Author: Hx
  * @Date: 2021-12-22 12:54:10
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-23 15:38:37
+ * @LastEditTime: 2021-12-23 22:42:43
  */
 #include"Utils.h"
 
@@ -15,8 +15,19 @@ void Pause(){
 }
 
 /**
- * @brief 清理屏幕
+ * @brief 清空屏幕
  */
 void Clean(){
    system("cls");
+}
+
+/**
+ * @brief 分配空间
+ */
+char* CopyString(char str[]){
+   int len = strlen(str);
+
+   char* target = (char*)malloc(sizeof(char)*len);
+   strcpy(target, str);
+   return target;
 }

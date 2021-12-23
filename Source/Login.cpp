@@ -3,27 +3,31 @@
  * @Author: Hx
  * @Date: 2021-12-23 15:56:56
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-23 17:06:34
+ * @LastEditTime: 2021-12-23 22:49:49
  */
 #include"Login.h"
 #include"Utils.h"
 
-char Data_Users[10] = "Users.dat";
+//存储学生数据的文件
+char Data_Stu[] = "Students.dat";
+
+//存储管理员数据的文件
+char Data_Man[] = "Managers.dat";
 
 /**
  * @brief 打印登录界面
  */
-void Login_Options(){
+void Print_Login_Options(){
     Clean();
     for (int i = 0; i < 10; i++){
         if(i == 5)
-            printf("学生选项");
+            printf("登录界面");
         printf("__");
     }
     printf("\n\n");
     printf("1.学生登录\n");
-    printf("2.管理员登录\n");
-    printf("3,学生注册\n");
+    printf("2,管理员登录\n");
+    printf("3,注册\n");
     printf("0.退出\n\n");
 
     for (int i = 0; i < 15; i++){
@@ -37,15 +41,14 @@ void Login_Options(){
  * @brief 登录选项
  */
 void Login_Operation(){
-    //循环操作标志
-    int flag = 1;
+    
     //选择
     int choose;
     
-    while (flag){
-        Login_Options();
+    while (true){
+        Print_Login_Options();
         scanf("%d", &choose);
-     
+        
         switch (choose){
             
             //返回上一级
@@ -69,14 +72,15 @@ void Login_Operation(){
 
             //管理员登录
             case 2:{
-                
+
             }break;
-            
+
             //注册
             case 3:{
-                if(Register_Stu() == SUCCESS){
+                Status status = Register_Spilt();
+                if(status == SUCCESS){
                     printf("注册成功\n");
-                }else{
+                }else if(status == Exist){
                     printf("账号已存在\n");
                 }
                 Pause();
@@ -103,80 +107,207 @@ Stu Login_Stu(){
     }
     printf("\n");
     FILE *fp = NULL;
-    char ID[11];
+    char account[11];
     char password[6];
     Stu stu = NULL;
-    Stu_Init(stu);
+    //Stu_Init(stu);
 
     //输入账号密码
     printf("请输入账号:");
-    scanf("%s", ID);
+    scanf("%s", account);
 
     printf("请输入密码:");
     scanf("%s", password);
 
     //打开文件
-    fp = fopen(Data_Users, "rb");
+    fp = fopen(Data_Stu, "rb");
     
-    //检查账号
+    //在数据文件中查找账号
     while(fread(stu, sizeof(student), 1, fp) != NULL){
-        if(strcmp(ID, stu->ID) == 0){
+        
+        if(strcmp(account, stu->account) == 0){
+            //密码相同
             if(strcmp(password, stu->password) == 0){
                 fclose(fp);
                 return stu;
             }
-        } 
+            else
+                break;
+            
+        }
     }
     fclose(fp);
-
+    
     return NULL;
+}
+
+/**
+ * @brief 打印注册选项
+ * 
+ */
+void Print_Register_Option(){
+    Clean();
+    for (int i = 0; i < 10; i++){
+        if(i == 5)
+            printf("登录界面");
+        printf("__");
+    }
+    printf("\n\n");
+    printf("1.学生注册\n");
+    printf("2,管理员注册\n");
+    printf("0.返回\n\n");
+
+    for (int i = 0; i < 15; i++){
+        printf("__");
+    }
+    printf("\n");
+    printf("请选择操作: "); 
+}
+
+/**
+ * @brief 分流学生和管理员
+ * 
+ */
+Status Register_Spilt(){
+
+    int choose;
+
+    while (true){
+        Print_Register_Option();
+        scanf("%d", &choose);
+
+        switch (choose){
+            
+            //返回
+            case 0:{
+                return Cancel;
+            }break;
+
+            //学生注册
+            case 1:{
+                Status status = Register_Operation(0);
+                if(status == SUCCESS)
+                    return SUCCESS;
+                else
+                    return Exist;
+            }break;
+
+            //管理员注册
+            case 2:{
+                Status status = Register_Operation(1);
+                if(status == SUCCESS)
+                    return SUCCESS;
+                else if(status == ERROR){
+                    printf("管理员注册权限无效\n");
+                    return ERROR;
+                }else   
+                    return Exist;
+                    
+            }break;
+
+            default:{
+                printf("\n操作不存在\n");
+                Pause();
+            }break;
+        }
+    Clean();
+    }
+    
 }
 
 /**
  * @brief 注册
  */
-Status Register_Stu(){
+Status Register_Operation(int mode){
 
-    Clean();
-    for (int i = 0; i < 10; i++){
-        if(i == 5)
-            printf("注册");
-        printf("__");
-    }
-    printf("\n");
     //初始化
     FILE *fp = NULL;
-    Stu stu = NULL, temp = NULL;
-    Stu_Init(stu);
-    Stu_Init(temp);
-    
-    //创建账号
-    printf("请输入学号:");
-    scanf("%s", stu->ID);
 
-    //打开文件
-    fp = fopen(Data_Users, "rb");
+    switch (mode){
 
-    //检查账号是否存在
-    while(fread(temp, sizeof(student), 1, fp) != NULL){
+        //学生注册
+        case 0:{     
+            Stu stu = NULL, temp = NULL;
+            Stu_Init(stu);
+            Stu_Init(temp);
 
-        if(strcmp(temp->ID, stu->ID) == 0){
+            printf("请输入账号:");
+            scanf("%s", stu->account);
+
+            //=================检查账号是否存在=================
+
+            //打开文件
+            fp = fopen(Data_Stu, "rb");
+
+            while(fread(temp, sizeof(student), 1, fp) != NULL){
+
+                if(strcmp(temp->account, stu->account) == 0){
+                    fclose(fp);
+                    return Exist;
+                }
+            }
             fclose(fp);
-            return ERROR;
-        }
+            
+            printf("请输入学号:");
+            scanf("%s", stu->ID);
+
+            printf("请输入密码(6位):");
+            scanf("%s", stu->password);
+
+            printf("请输入姓名:");
+            scanf("%s", stu->name);
+
+            stu->power = 0;
+
+            //写入文件
+            fp = fopen(Data_Stu, "ab+");
+            fwrite(stu, sizeof(student), 1, fp);
+            
+        }break;
+        //管理员注册
+        case 1:{
+            Manager M = NULL, temp = NULL;
+            Man_Init(M);
+            Man_Init(temp);
+            
+            //检测管理员注册密钥
+            int Mancode = 0;
+            printf("请输入管理员注册密钥:");
+            scanf("%d", &Mancode);
+            //注册密钥错误
+            if(Mancode != 1234) return FALSE;
+
+            printf("请输入账号:");
+            scanf("%s", M->account);
+            
+            
+            //=================检查账号是否存在=================
+
+            //打开文件
+            fp = fopen(Data_Man, "rb");
+
+            while(fread(temp, sizeof(student), 1, fp) != NULL){
+
+                if(strcmp(temp->account, M->account) == 0){
+                    fclose(fp);
+                    return Exist;
+                }
+            }
+            fclose(fp);
+            
+            printf("请输入密码(6位):");
+            scanf("%s", M->password);
+
+            printf("请输入姓名:");
+            scanf("%s", M->name);
+
+            M->power = 1;
+
+            //写入文件
+            fp = fopen(Data_Man, "ab+");
+            fwrite(M, sizeof(student), 1, fp);
+        }break;
     }
-    
-    fclose(fp);
-
-    printf("请输入密码(6位):");
-    scanf("%s", stu->password);
-
-    printf("请输入姓名:");
-    scanf("%s", stu->name);
-
-    //写入文件
-    fp = fopen(Data_Users, "ab+");
-    fwrite(stu, sizeof(student), 1, fp);
     fclose(fp);
     return SUCCESS;
 }

@@ -3,7 +3,7 @@
  * @Author: Hx
  * @Date: 2021-12-23 14:33:31
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-23 17:07:06
+ * @LastEditTime: 2021-12-23 20:14:49
  */
 #include"Student.h"
 #include"Utils.h"
@@ -17,6 +17,7 @@ Status Stu_Init(Stu &stu){
     stu = (Stu)malloc(sizeof(student));
     if(stu == NULL) return OVERFLOW;
     stu->book = NULL;
+    stu->power = 0;
 
     return SUCCESS;
 }
@@ -67,11 +68,6 @@ void Stu_Operation(Stu &stu){
                 return;
             }break;
 
-            case 1:{
-                
-            }break;
-
-        
             default:{
                 printf("\n²Ù×÷²»´æÔÚ\n");
                 Pause();

@@ -3,7 +3,7 @@
  * @Author: Hx
  * @Date: 2021-12-02 11:23:10
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-22 20:52:06
+ * @LastEditTime: 2021-12-23 21:33:46
  */
 #ifndef COMMON_H_INCLUDE
 #define COMMON_H_INCLUDE
@@ -23,6 +23,9 @@
 #define true 1
 #define FALSE 0
 #define false 0
+#define OK 1
+#define Cancel -1
+#define Exist 2
 
 //常用类型
 typedef int Status;
