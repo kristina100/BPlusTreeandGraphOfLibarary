@@ -7,16 +7,16 @@
 /** Show Help */
 void ShowHelp() {
     printf("\nType your operation:\n");
-    printf("  0) Test Initialize\n");
-    printf("  1) Set Depth\n");
-    printf("  2) Set MaxChildNumber\n");
-    printf("  3) Build Tree\n");
-    printf("  4) Query on a key\n");
-    printf("  5) Query on keys of range [l, r]\n");
-    printf("  6) Modify value on a key\n");
-    printf("  7) Delete value on a key\n");
-    printf("  8) Insert new record\n");
-    printf("  9) Quit\n");
+    printf("  0) 初始化测试\n");
+    printf("  1) 设置深度\n");
+    printf("  2) 设置最大孩子数\n");
+    printf("  3) 创建B+树\n");
+    printf("  4) 查找一个数据\n");
+    printf("  5) 查找key在[l, r]范围内的数据\n");
+    printf("  6) 修改一个数据\n");
+    printf("  7) 删除一个数据\n");
+    printf("  8) 插入一个数据\n");
+    printf("  9) 退出\n");
 }
 
 void MainLoop() {
@@ -140,7 +140,7 @@ void MainLoop() {
                     // found
                     if (File_Modify(pos, new_key, new_st)) {
                         // file modify success
-                        BPlusTree_Modify(new_key, value);
+                        // BPlusTree_Modify(new_key, value);
                         printf("Modify success.\n");
                     } else {
                         printf("Modify failed, the new value is too long to store in file\n");
@@ -175,19 +175,21 @@ void MainLoop() {
             case 8: {
                 Book book = NULL;
                 // 新建一个结点,每个结点只存一本书
-                // BPlusTreeNode *demo;
+                BPTNode* demo;
+                demo = (BPTNode*)malloc(sizeof(BPTNode));
+                
                 inputBookInfo(book);
-                // demo->book[i] = book;
+                demo->book = book;
+
                 strcpy(new_st, book->Title);
                 new_key = book->ISBN;
-
                 int pos = BPlusTree_Find(new_key);
-
+                
                 if (pos == -1) 
                 {
                     new_pos = File_Insert(new_key, new_st);
                     keys[key_num++] = new_key;
-                    BPlusTree_Insert(new_key, new_pos, book);
+                    BPlusTree_Insert(new_key, new_pos, demo);
                     validRecords++;
                     printf("Insert success.\n");
                 } 
@@ -221,19 +223,20 @@ void MainLoop() {
     BPlusTree_Destroy();
 }
 
-int main(int argc, char *argv[]) {
+int main() {
     // set input_file, output_file
     strcpy(input_file, "small-data.txt");
     strcpy(output_file, "out.txt");
-    if (argc == 2) strcpy(input_file, argv[1]);
+    
 
     // MainLoop (for presentation)
     MainLoop();
 
-//	build_test();
-//	query_key_test();
-//	query_range_test();
-//	modify_test();
-//	delete_test();
-    return 0;
+	// build_test();
+	// query_key_test();
+	// query_range_test();
+	// modify_test();
+	// delete_test();
+    system("pause");
+    return 1;
 }

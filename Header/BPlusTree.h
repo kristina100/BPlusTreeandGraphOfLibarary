@@ -3,7 +3,7 @@
  * @Author: 
  * @Date: 2021-12-21 14:44:58
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-22 20:20:42
+ * @LastEditTime: 2021-12-23 01:03:21
  */
 #ifndef BPLUSTREE_BPLUSTREE_H
 #define BPLUSTREE_BPLUSTREE_H
@@ -12,45 +12,45 @@
 #include"Book.h"
 #define MAX_CHILD_NUMBER 3000
 
-typedef struct BPlusTreeNode {
+typedef struct BPTNode {
     int isRoot, isLeaf;
     int key_num;
     int key[MAX_CHILD_NUMBER];
     int pos[MAX_CHILD_NUMBER];
-    BPlusTreeNode* child[MAX_CHILD_NUMBER];
-    struct BPlusTreeNode* father;
-    struct BPlusTreeNode* next;
-    struct BPlusTreeNode* last;
-    Book book[MAX_CHILD_NUMBER];
-}BPlusTreeNode;
+    BPTNode* child[MAX_CHILD_NUMBER];
+    struct BPTNode* father;
+    struct BPTNode* next;
+    struct BPTNode* last;
+    Book book;
+}BPTNode;
 
-void Insert(BPlusTreeNode* Cur, int key, int pos, void* value);
+void Insert(BPTNode* Cur, int key, int pos, BPTNode* value);
 
-void Delete(BPlusTreeNode* Cur, int key);
+void Delete(BPTNode* Cur, int key);
 
 int BPlusTree_Find(int key);
 
-void BPlusTree_SetMaxChildNumber(int number);
+extern void BPlusTree_SetMaxChildNumber(int number);
 
-void BPlusTree_Init();
+extern void BPlusTree_Init();
 
-void BPlusTree_Destroy();
+extern void BPlusTree_Destroy();
 
 void Read_Data_And_Insert();
 
-int BPlusTree_Insert(int key, int pos, BPlusTreeNode* value);
+int BPlusTree_Insert(int key, int pos, BPTNode* value);
 
-int BPlusTree_GetTotalNodes();
+extern int BPlusTree_GetTotalNodes();
 
-void BPlusTree_Query_Key(int key);
+extern void BPlusTree_Query_Key(int key);
 
-int Binary_Search(BPlusTreeNode* Cur, int key);
+int Binary_Search(BPTNode* Cur, int key);
 
-void BPlusTree_Query_Range(int l, int r);
+extern void BPlusTree_Query_Range(int l, int r);
   
-void BPlusTree_Modify(int key, BPlusTreeNode* value);
+extern void BPlusTree_Modify(int key, BPTNode* value);
 
-void BPlusTree_Delete(int key);
+extern void BPlusTree_Delete(int key);
 
 void BPlusTree_Print();
 

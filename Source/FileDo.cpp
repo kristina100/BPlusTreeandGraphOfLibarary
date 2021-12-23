@@ -7,9 +7,9 @@
 */
 void Read_Buffer(char *input_file) {
     printf("%s",input_file);
-    FILE* fin = fopen(input_file, "a+");
+    // FILE* fin = fopen(input_file, "a+");
 //    FILE* fin = fopen(input_file, "r+");
-//    FILE* fin = fopen(input_file, "w+");
+   FILE* fin = fopen(input_file, "w+");
     if (fin == NULL) {
         fputs("File Error\n", stderr);
         exit(1);
