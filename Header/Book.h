@@ -3,7 +3,7 @@
  * @Author: Hx
  * @Date: 2021-12-12 23:08:25
  * @LastEditors: Hx
- * @LastEditTime: 2021-12-22 16:51:36
+ * @LastEditTime: 2021-12-23 15:11:27
  */
 #ifndef BOOK_H_INCLUDE
 #define BOOK_H_INCLUDE
@@ -27,5 +27,7 @@ typedef struct book{
  * @return Book 
  */
 Status inputBookInfo(Book &book);
+
+
 
 #endif //BOOK_H_INCLUDE

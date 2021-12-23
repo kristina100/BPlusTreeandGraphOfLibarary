@@ -55,7 +55,7 @@ void Read_Data_And_Insert() {
         char* value = (char*)malloc(sizeof(char) * new_len);
         strcpy(value, new_st);
         keys[key_num++] = new_key;
-        if (BPlusTree_Insert(new_key, new_pos, value) == true) validRecords++; // for "ex-data.txt", valid = 9950138
+        // if (BPlusTree_Insert(new_key, new_pos, value) == true) validRecords++; // for "ex-data.txt", valid = 9950138
     }
     free(buffer);
     buffer = NULL;
