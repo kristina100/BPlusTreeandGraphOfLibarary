@@ -175,8 +175,8 @@ void MainLoop() {
             case 8: {
                 Book book = NULL;
                 // 新建一个结点,每个结点只存一本书
-                BPTNode* demo;
-                demo = (BPTNode*)malloc(sizeof(BPTNode));
+                BPTree demo;
+                demo = (BPTree)malloc(sizeof(BPTNode));
                 
                 inputBookInfo(book);
                 demo->book = book;
